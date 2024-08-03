@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Card Flip on Click</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url(photo_2024-08-01_23-15-23.jpg) no-repeat center center/cover;
+        }
+        #videoContainer, .card-container, .overlay, #hiddenVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #videoContainer {
+            z-index: 1000;
+            background: black;
+        }
+        #hiddenVideo {
+            display: none;
+            background: black;
+            z-index: 1000;
+        }
+        .card-container {
+            perspective: 1000px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 20px;
+            transform: scale(0.8);
+        }
+        .header-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .card {
+            width: calc(50% - 5px);
+            padding-bottom: calc(50% - 5px);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .front {
+            background: #333;
+        }
+        .back {
+            background: #555;
+            transform: rotateY(180deg);
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .overlay {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgb(0 0 0 / 88%);
+            z-index: 999;
+        }
+        .action-container {
+            display: none;
+            border-radius: 10px;
+            text-align: center;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeIn 2s forwards;
+            transform: scale(0.4);
+        }
+        .action-container button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .gift-image {
+            display: flex;
+            justify-content: center;
+        }
+        .gift-image img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            padding-top: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin: -273px 0px 0px 0px;
+        }
+        .gift-image {
+            display: flex;
+            justify-content: center;
+            position: relative; 
+        }
+
+        .gift-image img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: box-shadow 0.5s ease-in-out;
+        }
+
+        .gift-image img.glowing {
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.8); 
+        }
+
+
+.card.is-flipped .back::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.6);
+        }
+        .fon{
+            transform: scale(3.1);
+            padding-top: 340px;
+            height:200px;
+        }
+        .ki{
+            transform: scale(1.1);
+        }
+        .ri{
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.4);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <audio id="backgroundMusic" src="" autoplay loop></audio>
+    <div id="videoContainer">
+        <video id="introVideo" width="100%" height="100%" autoplay muted>
+            <source src="img res/video_2024-08-02_03-43-556544.mp4" type="video/mp4">
+            
+        </video>
+    </div>
+
+    <div class="card-container">
+        <img src="img res/ONLY FOR AUSTRALIA.png" alt="Header Image" class="header-image">
+
+        <div id="explosion" class="explosion"></div>
+        <div class="container">
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 1"></div>
+                <div class="back"><img src="img res/win2_00062565.png" alt="Back 1"></div>
+            </div>
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 2"></div>
+                <div class="back"><img src="img res/win2_00062565.png" alt="Back 2"></div>
+            </div>
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 3"></div>
+                <div class="back"><img src="img res/win1_000655.png" alt="Back 3"></div>
+            </div>
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 4"></div>
+                <div class="back"><img src="img res/win1_000655.png" alt="Back 4"></div>
+            </div>
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 5"></div>
+                <div class="back"><img src="img res/win3_00062.png" alt="Back 5"></div>
+            </div>
+            <div class="card" onclick="toggleCard(this)">
+                <div class="front"><img src="img res/win1_00032.png" alt="Front 6"></div>
+                <div class="back"><img src="img res/win2_00062565.png" alt="Back 6"></div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="overlay" id="overlay">
+        <div class="action-container" id="actionContainer">
+            <a href="https://apps.apple.com/us/app/caliente-club/id6503647910">
+                <img class="ki" src="img res/photo_2024-08-03_01-37-39-removebg-preview (2).png">
+            </a>
+            <div class="gift-image" id="giftImageContainer">
+                <img id="giftImage" src="img res/Bonus_0010445.png" width="300" height="300" alt="Gift Image">
+            </div>
+        </div>
+    </div>
+
+    <a href="https://apps.apple.com/us/app/caliente-club/id6503647910"><video id="hiddenVideo" width="100%" height="100%" autoplay muted loop>
+        <source src="img res/5454545.mp4" type="video/mp4">
+        
+    </video></a>
+
+    <script>
+        function showImageUploader() {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.style.display = 'none';
+
+
+fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const giftImage = document.getElementById('giftImage');
+                        giftImage.src = e.target.result;
+                        giftImage.style.display = 'block';
+
+                        gift
+
+
+giftImage.classList.add('glowing');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            document.body.appendChild(fileInput);
+            fileInput.click();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.getElementById('videoContainer');
+            const introVideo = document.getElementById('introVideo');
+            const cardContainer = document.querySelector('.card-container');
+            const hiddenVideo = document.getElementById('hiddenVideo');
+            const overlay = document.getElementById('overlay');
+            const actionContainer = document.getElementById('actionContainer');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const explosion = document.getElementById('explosion');
+
+            introVideo.addEventListener('ended', function() {
+                videoContainer.style.display = 'none';
+                cardContainer.style.display = 'flex';
+                startHiddenVideoTimer();
+            });
+
+            let flippedCards = 0;
+
+            window.toggleCard = function(card) {
+                const isFlipped = card.classList.contains('is-flipped');
+
+                if (flippedCards >= 3 && !isFlipped) {
+                    alert('You can only flip up to 3 cards.');
+                    return;
+                }
+
+                if (isFlipped) {
+                    flippedCards--;
+                } else {
+                    flippedCards++;
+                }
+
+                card.classList.toggle('is-flipped');
+
+                if (flippedCards === 3) {
+                    showExplosion();
+                    showOverlay();
+                }
+            }
+
+            function showExplosion() {
+                explosion.style.display = 'block';
+                setTimeout(() => {
+                    explosion.style.display = 'none';
+                }, 3000); 
+            }
+
+            function showOverlay() {
+                overlay.style.display = 'flex';
+                actionContainer.style.display = 'flex';
+                actionContainer.style.animation = 'fadeIn 2s forwards'; 
+            }
+
+            function setGiftImage() {
+                alert('Set as Gift functionality is not implemented.');
+            }
+
+            function startHiddenVideoTimer() {
+                setTimeout(() => {
+                    hiddenVideo.style.display = 'flex';
+                    hiddenVideo.play();
+                    cardContainer.style.display = 'none';
+                    overlay.style.display = 'none';
+                }, 10000); 
+            }
+
+            function playBackgroundMusic() {
+                const musicPromise = backgroundMusic.play();
+                if (musicPromise !== undefined) {
+                    musicPromise.then(() => {
+                        console.log('Музыка играет');
+                    }).catch(error => {
+                        console.error('Ошибка воспроизведения музыки:', error);
+                    });
+                }
+            }
+
+            playBackgroundMusic();
+        });
+    </script>
+</body>
+</html>
